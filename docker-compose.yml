@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  instagram-checker:
+    build: .
+    container_name: instagram-username-checker
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app.py
+    volumes:
+      - ./settings.json:/app/settings.json
+      - ./accounts_state.json:/app/accounts_state.json
+      - ./hits.txt:/app/hits.txt
+      - ./proxies.txt:/app/proxies.txt
+    restart: unless-stopped
+    networks:
+      - checker-network
+
+networks:
+  checker-network:
+    driver: bridge
